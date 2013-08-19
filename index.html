@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RequireJS Tutorial - Atlanta JavaScript Meetup</title>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' media='screen' />
+		<link href='css/index.css' rel='stylesheet' media='screen' />
+		<style type='text/css'>
+#steps {
+	display: none;
+}		
+
+.pagination {
+	margin: 0;
+}
+
+.pagination-sm {
+	margin: 0;
+}
+
+.panel-heading {
+	padding: 3px;
+	padding-top: 6px;
+	padding-left: 6px;
+}
+		</style>
+		<script src='lib/jquery/jquery-1.10.2.min.js'></script>
+		<script src='lib/bootstrap/js/bootstrap.min.js'></script>
+		<script>
+$(function() {
+	var i = 1;
+	var pager = $('#stepsPager');
+	$('#steps .step').each(function(){
+		var pagerItem = $("<li><a href='#' class='pagerLink'>" + i + "</a></li>");
+		pager.append(pagerItem);
+		i++;
+	});
+	$('.pagerLink').click(function() {
+		var link = $(this);
+		stepLoad(link.text());
+	})
+});	
+function stepLoad(step) {
+	var stepEl = $('#step-' + step);
+	var header = stepEl.attr('data-title');
+	var content = stepEl.html();
+	$('#stepLoadedHeader').text('Step ' + step + ': ' + header);
+	$('#stepLoadedContent').html(content);
+}
+		</script>
+	</head>
+	<body class='container'>
+		<div class='panel'>
+			<div class='panel-heading'>
+				<ul class="pagination pagination-sm" id='stepsPager'></ul>
+			</div>
+			<div class='panel-body'>
+				<div class='row container' id='stepLoaded'>
+					<h2 id='stepLoadedHeader'></h2>
+					<div id='stepLoadedContent'></div>
+				</div>
+			</div>
+		</div>
+		<div id='steps'>
+			<div id='step-1' class='step' data-title='Understand RequireJS'>
+				<script src="http://gist-it.appspot.com/https://github.com/JogoShugh/RequireJSTutorial/blob/master/app.js"></script>				
+			</div>
+			<div id='step-2' class='step' data-title='This is the second one'>
+				this is a test
+			</div>			
+		</div>		
+	</body>
+</html>
