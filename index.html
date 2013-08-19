@@ -492,6 +492,35 @@ function resourcesHide() {
 						</li>							
 					</ul>
 				</div>
+			</div>
+			<div class='slide' data-title="Step 6: Remove the old and busted ways and load module list dynamically">
+				<div class='content'>
+					<h3>As an improvement, let's load the list of operations from the server too</h3>
+					<h4>You could do this by scanning file names and sending JSON to the client, but we'll just use a simple <code>.js</code> to illustrate this for now:</h4>
+					<ul>
+						<li>Create <code>app/js/modules.js</code>:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-6/app/js/modules.js?footer=0"></script>
+							</p>
+						</li>
+						<li>Modify <code>app/js/app.js</code> to look like this:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-6/app/js/app.js?footer=0"></script>
+							</p>
+						</li>
+						<li>Modify <code>app/index.html</code>, removing the hard-coded modules list:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-6/app/index.html?footer=0"></script>
+							</p>
+						</li>
+						<li>
+							<p>
+							Try the slimmed down asynchronous calculator <a href="http://jogoshugh.github.io/RequireJSTutorial/steps/step-6/app/index.html" 
+								class='btn btn-success btn-sm' target='_blank'>Step 6 on GitHub</a>
+							</p>
+						</li>							
+					</ul>
+				</div>
 			</div>			
 		</div>
 	</body>
