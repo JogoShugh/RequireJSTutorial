@@ -13,11 +13,14 @@ $(function() {
 			console.dir(data);
 			populateOperationOptions(data); 
 		})
-		.fail(function() { populateOperationOptions(defaultOperations) });
+		.fail(function() { 
+			console.log('Fell back to getting module list from static list:');
+			console.dir(defaultOperations);
+			populateOperationOptions(defaultOperations) 
+		});
 });
 
 function populateOperationOptions(operations) {
-	console.log(operations);
 	var operationsGroup = $('#operations');
 	var first = true;
 	for (var key in operations) {
