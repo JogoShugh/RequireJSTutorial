@@ -1,3 +1,36 @@
+$(function() {
+	var defaultOperations = {
+		add: {symbol: '+'},
+		subtract: {symbol: '-'},
+		divide: {symbol: '/'},		
+		multiply: {symbol: '*'},
+		factorial: {symbol: '!'}
+	};
+
+	$.get('js/modules.js')
+		.done(function(data){ populateOperationOptions(data); })
+		.fail(function() { populateOperationOptions(defaultOperations) });
+});
+
+function populateOperationOptions(operations) {
+	console.log(operations);
+	var operationsGroup = $('#operations');
+	var first = true;
+	for (var key in operations) {
+		var operation = operations[key];
+		var operationContainer = $("<label class='btn btn-primary col-md-1 col-xs-2 operation'></label>");
+		var checkbox = $("<input type='checkbox' value='" + key + "' />");
+		if (first) {
+			checkbox.attr('checked', 'checked');
+			operationContainer.addClass('active');
+		}
+		first = false;
+		operationContainer.append(checkbox);
+		operationContainer.append(" " + operation.symbol);
+		operationsGroup.append(operationContainer);
+	}
+}
+
 function createAndRenderCalculator(calculator, containerSelector) {
 	var calcUi = new CalculatorUI(calculator);
 	var calcUiRendered = calcUi.render();
@@ -11,14 +44,6 @@ function createRemovalButton(elToRemoveOnClick) {
 		elToRemoveOnClick.remove();
 	});
 	return removalButton;
-}
-
-function createCalculatorBBOM() {
-	createAndRenderCalculator(CalculatorBBOM, '#bbomCalculators');	
-}
-
-function createCalculatorModular() {
-	createAndRenderCalculator(CalculatorModular, '#modularCalculators');
 }
 
 function createNewAsyncCalc() {
