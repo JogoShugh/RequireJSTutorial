@@ -14,7 +14,7 @@ CalculatorUI.prototype.createOperationButton = function(operationSymbol, operati
 			operationName = $el.attr('data-operation'),
 			input = that._input.val(),
 			numericValues = [];
-			numericValues.push(that._lastResult);			
+			numericValues.push(that._lastResult);
 		try {
 			var num = parseFloat(input);
 			if (!isNaN(num)) {
@@ -33,7 +33,7 @@ CalculatorUI.prototype.createOperationButton = function(operationSymbol, operati
 
 CalculatorUI.prototype.updateOutput = function() {
 	this._output.text(this._lastResult);
-}
+};
 
 CalculatorUI.prototype.render = function() {
 	var operations = this._calculator.getOperations(),
@@ -49,7 +49,7 @@ CalculatorUI.prototype.render = function() {
 		buttonsPanel.append("&nbsp;")
 	}
 	this._output = $("<div class='calculatorOutput col-md-12 col-xs-12'></div>");	
-	that.updateOutput();
+	this.updateOutput();
 	this._input = $("<input type='text' class='calculatorInput col-md-12 col-xs-12'></input>");
 
 	clearEverything.click(function() {
