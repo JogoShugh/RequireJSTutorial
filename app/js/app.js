@@ -7,13 +7,25 @@ $(function() {
 		factorial: {symbol: '!'}
 	};
 
-	$.get('js/modules.js')
-		.done(function(data){ populateOperationOptions(data); })
-		.fail(function() { populateOperationOptions(defaultOperations) });
+	$.ajax({
+		url: 'js/modules.js',
+		dataType: 'json'
+	})
+	.done(function(data) {
+		console.log('Got module list from server:');
+		console.dir(data);
+		populateOperationOptions(data);
+	});
+	/*
+	.fail(function() { 
+		console.log('Fell back to getting module list from static list:');
+		console.dir(defaultOperations);
+		populateOperationOptions(defaultOperations) 
+	});
+	*/
 });
 
 function populateOperationOptions(operations) {
-	console.log(operations);
 	var operationsGroup = $('#operations');
 	var first = true;
 	for (var key in operations) {
