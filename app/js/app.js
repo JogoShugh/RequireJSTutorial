@@ -20,3 +20,17 @@ function createCalculatorBBOM() {
 function createCalculatorModular() {
 	createAndRenderCalculator(CalculatorModular, '#modularCalculators');
 }
+
+function createNewAsyncCalc() {
+	var operations = [];
+	$('.operation input:checked').each(function() {		
+		operations.push($(this).val());
+	});
+	if (operations.length == 0) {
+		alert("That's a really boring calculator! Try again...");
+		return;
+	}
+	CalculatorAsyncLoad(operations, function(calculatorAsync) {
+		createAndRenderCalculator(calculatorAsync, '#asyncCalculators');
+	});
+}
