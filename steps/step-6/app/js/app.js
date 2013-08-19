@@ -8,7 +8,11 @@ $(function() {
 	};
 
 	$.get('js/modules.js')
-		.done(function(data){ populateOperationOptions(data); })
+		.done(function(data) { 
+			console.log('Got module list from server:');
+			console.dir(data);
+			populateOperationOptions(data); 
+		})
 		.fail(function() { populateOperationOptions(defaultOperations) });
 });
 
