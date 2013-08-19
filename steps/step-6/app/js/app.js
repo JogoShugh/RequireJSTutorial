@@ -8,19 +8,21 @@ $(function() {
 	};
 
 	$.ajax({
-		url: 'js/modules.js'
+		url: 'js/modules.js',
 		dataType: 'json'
 	})
 	.done(function(data) {
 		console.log('Got module list from server:');
 		console.dir(data);
-		populateOperationOptions(data); 
-	})
+		populateOperationOptions(data);
+	});
+	/*
 	.fail(function() { 
 		console.log('Fell back to getting module list from static list:');
 		console.dir(defaultOperations);
 		populateOperationOptions(defaultOperations) 
 	});
+	*/
 });
 
 function populateOperationOptions(operations) {
