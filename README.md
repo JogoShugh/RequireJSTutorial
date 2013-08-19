@@ -1,4 +1,0 @@
-RequireJSTutorial
-=================
-
-RequireJS Tutorial
