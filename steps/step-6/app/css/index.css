@@ -1,0 +1,33 @@
+body {
+	margin: 15px;
+	text-align: center;
+}
+
+.calculatorOperation {
+	margin: 2px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.calculatorInput {
+	text-align: right
+}
+
+.calculatorOutput {
+	text-align: right;
+	background: beige;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.createCalculator {
+	margin-top: 5px;
+}
+
+.calculator {
+	margin-top: 5px;
+}
+
+.remove {
+	margin-bottom: 5px;
+}
