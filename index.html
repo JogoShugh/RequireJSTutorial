@@ -314,7 +314,7 @@ function resourcesHide() {
 							which means that if we wanted to support dozens, or even hundreds or thousands, of math functions,
 							it would start to get very uncomfortable.</li>
 						<li>In Step 4, we'll start to modularize the calculator by using separate files to house each 
-							math function. This, however, will still a half-hearted solution that doesn't solve the modularity question entirely.</li>
+							math function. This, however, will still be a half-hearted solution that doesn't solve the modularity question entirely.</li>
 					</ul>
 				</div>
 				<div class='references'>
@@ -326,6 +326,7 @@ function resourcesHide() {
 					  <a href="http://www.codinghorror.com/blog/2007/11/the-big-ball-of-mud-and-other-architectural-disasters.html" class="list-group-item">
 					    <h4 class="list-group-item-heading">The Big Ball of Mud and Other Architectural Disasters</h4>
 					    <p class="list-group-item-text">Jeff Atwood has another great article about this pattern with a lot of other physical-world analogies.</p>
+					   </a>
 					</div>					
 				</div>				
 			</div>
@@ -375,9 +376,64 @@ function resourcesHide() {
 								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/index.html?footer=0"></script>								
 							</p>
 						</li>
+						<li><p>
+							Try the <a href="http://jogoshugh.github.io/RequireJSTutorial/steps/step-4/app/index.html" 
+								class='btn btn-success btn-sm' target='_blank'>finished Step 4 on GitHub</a>
+							</p>
+						</li>							
 					</ul>
 				</div>
 			</div>
+			<div class='slide' data-title="Review: Modular structure achieved">
+				<div class='content'>
+					<h3>We've achieved modularity at the implementation level now, but there's a problem...</h3>
+					<div class='figure'>
+						<img src="https://docs.google.com/drawings/d/1TiCziiienpjaOlg2KxxynU52uyaxSIVbuZWWv5ZO928/pub?w=415&amp;h=684" class='col-xs-12 col-md-12' />
+					</div>
+					<h4>Pros:</h4>
+					<ul>
+						<li>Different files for each operation will make it easier to extend without check-in conflicts</li>
+						<li>The operations can be used in isolation, withou the <code>CalculatorModular</code> object</li>
+						<li>We could write independent unit tests for each operation that we could run under Node</li>
+					</ul>
+					<h4>Cons:</h4>
+					<ul>
+						<li>We still manually reference files in the <code>head</code> tag!</li>
+						<li>Each operation depends on the presence of the <code>CalculatorModular</code> object in order to
+							register itself with it upon load, a coupling we can avoid!</li>
+						<li>The crazy immediate-execute anonymous function looks complicated and error-prone</li>
+					</ul>
+					<h4>Let's add a truly modular alternative, with the help of RequireJS next</h4>
+				</div>
+				<div class='references'>
+					<div class="list-group">
+					  <a href="30 Impressive Creations Made from Lego Bricks at Naldz Graphics" class="list-group-item">
+					    <h4 class="list-group-item-heading">Nathan Saways lego creation</h4>
+					    <p class="list-group-item-text">The Lego sculpture above is from the Nathan Sawaya exhibit at the Flinn Gallery in Greenwich, Connecticut.</p>
+					  </a>
+					</div>				
+				</div>			
+			</div>
+			<div class='slide' data-title="Characteristics of modular software">
+				<div class='content'>
+					<h3>What makes a design modular?</h3>
+					<ul>
+						<li>Independent, interchangeable parts</li> 
+						<li>Each parts contains everything necessary to execute one capability</li>
+						<li>Parts are expected to implement one or more <em>interfaces</em> that correspond to capabilities</li>
+						<li>These implementation parts are detectable by one or more other modules that incorporate them into the main program</li>
+					</ul>
+					<h4>Our interface is pretty simple: <em>a function that takes two numeric parameters and returns a single numeric parameter</em></h4>
+				</div>
+				<div class='references'>
+					<div class="list-group">
+					  <a href="http://en.wikipedia.org/wiki/Modular_programming" class="list-group-item">
+					    <h4 class="list-group-item-heading">Modular programming on Wikipedia</h4>
+					    <p class="list-group-item-text">Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality. Conceptually, modules represent a separation of concerns, and improve maintainability by enforcing logical boundaries between components. Modules are typically incorporated into the program through interfaces. A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface.</p>
+					  </a>
+					</div>				
+				</div>			
+			</div>			
 		</div>
 	</body>
 </html>
