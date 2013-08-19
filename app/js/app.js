@@ -14,5 +14,9 @@ function createRemovalButton(elToRemoveOnClick) {
 }
 
 function createCalculatorBBOM() {
-	createAndRenderCalculator(CalculatorBBOM, '#bbomCalculators');
+	createAndRenderCalculator(CalculatorBBOM, '#bbomCalculators');	
+}
+
+function createCalculatorModular() {
+	createAndRenderCalculator(CalculatorModular, '#modularCalculators');
 }
