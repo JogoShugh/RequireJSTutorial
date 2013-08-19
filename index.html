@@ -326,9 +326,57 @@ function resourcesHide() {
 					  <a href="http://www.codinghorror.com/blog/2007/11/the-big-ball-of-mud-and-other-architectural-disasters.html" class="list-group-item">
 					    <h4 class="list-group-item-heading">The Big Ball of Mud and Other Architectural Disasters</h4>
 					    <p class="list-group-item-text">Jeff Atwood has another great article about this pattern with a lot of other physical-world analogies.</p>
-					</div>
-					
+					</div>					
 				</div>				
+			</div>
+			<div class='slide' data-title="Step 4: Create the CalculatorModular files">
+				<div class='content'>
+					<h3>Let's break up the calculator into separate files to support better separation of concerns and evolvability</h3>
+					<h4>As I said in the last review step, this is not the complete solution, so let's just go through it 
+						quickly.</h4>
+					<ul>
+						<li>Create <code>app/js/calculator-modular.js</code>:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/calculator-modular.js?footer=0"></script>
+							</p>
+						</li>
+						<li>Create the individual operation files:
+							<ul>
+								<li>Add: <code>app/js/add-module.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/add-module.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Subtract: <code>app/js/subtract-module.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/subtract-module.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Multiply: <code>app/js/multiply-module.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/multiply-module.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Divide: <code>app/js/divide-module.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/divide-module.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Factorial: <code>app/js/factorial-module.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/js/factorial-module.js?footer=0"></script>		
+									</p>
+								</li>
+							</ul>
+						</li>
+						<li>Now, add references and modify the body of the <code>app/index.html</code> file to incorporate our new, modularly-defined calculator. We also take the liberty to use Bootstrap's tabs support here,
+							so here's how the full file should now look:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-4/app/index.html?footer=0"></script>								
+							</p>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</body>
