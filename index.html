@@ -264,14 +264,25 @@ function resourcesHide() {
 					<ul>
 						<li>Create <code>app/js/calculator-ui-1.0.js</code> with this code:
 							<p>
-								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-2/app/js/calculator-bbom.js?footer=0"></script>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-3/app/js/calculator-ui-1.0.js?footer=0"></script>
 							</p>
 						</li>
-						<li>Next, add the reference to the <code>app/index.html</code> file, right after the 
-							<code>bootstrap.min.js</code> reference:
+						<li>Next, create <code>app/js/app.js</code> with the following code. This is where we'll handle UI events to coordinate using the <code>CalculatorBBOM</code> and <code>CalculatorUI</code> objects:
 							<p>
-								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-2/app/index.html?footer=0&slice=8:10"></script>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-3/app/js/app.js?footer=0"></script>
 							</p>
+						</li>						
+						<li>Now, add references to the <code>app/js/calculator-ui-1.0.js</code> and 
+							<code>app/js/app.js</code> files, right after the 
+							previous <code>calculator-bbom.js</code> reference:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-3/app/index.html?footer=0&slice=9:12"></script>
+							</p>
+						</li>
+						<li>We need to modify <code>app/index.html</code> so that clicking the <code>Add New BBOM Calculator</code> button creates and appends a new <code>CalculatorUI</code> element (configured with our trusty <code>CalculatorBBOM</code> object) into the DOM. Modify it like this:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-3/app/index.html?footer=0&slice=15:18"></script>
+							</p>							
 						</li>
 						<li>Load the page now, and you can pull up the developer console and type in 
 							<code>CalculatorBBOM.execute('multiply', [2, 4])</code>. For factorial, note the hacky way you need to pass <code>CalculatorBBOM.execute('factorial', [0, <em>n</em>])</code>
