@@ -5,69 +5,169 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' media='screen' />
 		<link href='css/index.css' rel='stylesheet' media='screen' />
-		<style type='text/css'>
-#steps {
-	display: none;
-}		
-
-.pagination {
-	margin: 0;
-}
-
-.pagination-sm {
-	margin: 0;
-}
-
-.panel-heading {
-	padding: 3px;
-	padding-top: 6px;
-	padding-left: 6px;
-}
-		</style>
 		<script src='lib/jquery/jquery-1.10.2.min.js'></script>
 		<script src='lib/bootstrap/js/bootstrap.min.js'></script>
 		<script>
 $(function() {
 	var i = 1;
-	var pager = $('#stepsPager');
-	$('#steps .step').each(function(){
+	var pager = $('#slidesPager');
+	$('#slides .slide').each(function(){
+		this.id = 'slide-' + i;
 		var pagerItem = $("<li><a href='#' class='pagerLink'>" + i + "</a></li>");
 		pager.append(pagerItem);
 		i++;
 	});
 	$('.pagerLink').click(function() {
 		var link = $(this);
-		stepLoad(link.text());
+		slideLoad(link.text());
 	})
+	$('#resources').hide();
+	$('#resourcesShow').click(function() {
+		resourcesShow();
+		resourcesHideButtonShow();
+	});
+	$('#resourcesHide').click(function() {
+		resourcesHide();
+		resourcesShowButtonShow();
+	});
+	$('#resourcesHide').hide();
+	$('#resourcesShow').hide();
+
 });	
-function stepLoad(step) {
-	var stepEl = $('#step-' + step);
-	var header = stepEl.attr('data-title');
-	var content = stepEl.html();
-	$('#stepLoadedHeader').text('Step ' + step + ': ' + header);
-	$('#stepLoadedContent').html(content);
+function slideLoad(slide) {
+	$('#resourcesHide').hide();
+	$('#resourcesShow').hide();
+	resourcesHide();
+	var slideEl = $('#slide-' + slide);
+	var header = slideEl.attr('data-title');
+	var content = slideEl.find('.content').html();
+	var references = slideEl.find('.references');
+	var referencesContent = '';
+	if (references.length > 0) {
+		referencesContent = references.html();
+		resourcesShowButtonShow();
+	}
+	$('#slideLoadedHeader').text(header);
+	$('#slideLoadedContent').html(content);
+	$('#resources').html(referencesContent);
+}
+
+function resourcesShowButtonShow() {
+	$('#resourcesShow').show();
+	$('#resourcesHide').hide();
+}
+
+function resourcesHideButtonShow() {
+	$('#resourcesShow').hide();
+	$('#resourcesHide').show();
+}
+
+function resourcesShow() {
+	$('#resources').show();
+}
+
+function resourcesHide() {
+	$('#resources').hide();
 }
 		</script>
 	</head>
 	<body class='container'>
 		<div class='panel'>
 			<div class='panel-heading'>
-				<ul class="pagination pagination-sm" id='stepsPager'></ul>
+				<ul class="pagination pagination-sm" id='slidesPager'></ul>
 			</div>
 			<div class='panel-body'>
-				<div class='row container' id='stepLoaded'>
-					<h2 id='stepLoadedHeader'></h2>
-					<div id='stepLoadedContent'></div>
+				<div class='row container' id='slideLoaded'>
+					<h2 id='slideLoadedHeader'></h2>
+					<div id='slideLoadedContent'></div>
 				</div>
+			</div>			
+			<div class='panel-footer'>
+				<button type="button" class="btn btn-primary btn-sm" id='resourcesShow'>Show Resources</button>
+				<button type="button" class="btn btn-primary btn-sm" id='resourcesHide'>Hide Resources</button>
+				<div id='resources'>
+				</div>	
 			</div>
 		</div>
-		<div id='steps'>
-			<div id='step-1' class='step' data-title='Understand RequireJS'>
-				<script src="http://gist-it.appspot.com/https://github.com/JogoShugh/RequireJSTutorial/blob/master/app.js"></script>				
+		<div id='slides'>
+			<div class='slide' data-title='What is RequireJS?'>
+				<div class='content'>
+					<blockquote class='lead'>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node. Using a modular script loader like RequireJS will improve the speed and quality of your code.
+					</blockquote>
+					<div class='figure'>
+						<img src="https://docs.google.com/drawings/d/1i8SCjWygUokBj1ZV5A-4N8W9kspFosXld5b_pzqeSVA/pub?w=204&amp;h=212" />
+					</div>
+				</div>
+				<div class='references'>
+					<div class="list-group">
+					  <a href="http://www.requirejs.org" class="list-group-item">
+					    <h4 class="list-group-item-heading">RequireJS web site</h4>
+					    <p class="list-group-item-text">Study the RequireJS technical documentation in greater detail.</p>
+					  </a>
+					  <a href="https://github.com/jrburke" class="list-group-item">
+					    <h4 class="list-group-item-heading">James Burke's GitHub profile</h4>
+					    <p class="list-group-item-text">Check out the RequireJS author's latest work on GitHub.</p>
+					  </a>
+					</div>
+				</div>
 			</div>
-			<div id='step-2' class='step' data-title='This is the second one'>
-				this is a test
+			<div class='slide' data-title='RequireJS supports the Asynchronous Module Definition pattern (AMD)'>
+				<div class='content'>
+					<h3>AMD definition:</h3>
+					<blockquote class='lead'>The Asynchronous Module Definition API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.						
+					</blockquote>
+					<div class='figure'>
+						<h4>Figure 1: AMD pattern</h4>
+						<p>
+							<img src="https://docs.google.com/drawings/d/1j2cv3YuU5f4mqzf3VQUMEegtPB5m4JEIkmsabert89o/pub?w=914&amp;h=638"
+							class='col-xs-12 col-md-12' />
+						</p>
+					</div>
+				</div>
+				<div class='references'>
+					<div class="list-group">
+					  <a href="https://github.com/amdjs/amdjs-api/wiki/AMD" class="list-group-item">
+					    <h4 class="list-group-item-heading">AMD wiki</h4>
+					    <p class="list-group-item-text">Read the full API spec for the AMD JS pattern.</p>
+					  </a>
+					  <a href="http://pluralsight.com/training/courses/TableOfContents?courseName=javascript-design-patterns" 	class="list-group-item">
+					    <h4 class="list-group-item-heading">JavaScript Design Patterns course</h4>
+					    <p class="list-group-item-text">Aaron Powell's Pluralsight course has a chapter on AMD.</p>
+					  </a>
+					</div>
+				</div>
 			</div>			
-		</div>		
+			<div class='slide' data-title='RequireJS as boomerang'>
+				<div class='content'>
+					<h3>RequireJS fetches libraries like a boomerang and brings them back to your code</h3>
+					<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-1/js/factorial.js?footer=0"></script>
+					<div class='figure'>
+						<h4>Figure 2: Library boomerang</h4>
+						<p>
+							<img class='col-xs-12 col-md-12' src="https://docs.google.com/drawings/d/1lkXsqziTqYC8YLvAXwygfa47hLKjWx_aLKKroP4djn4/pub?w=933&amp;h=401" />
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class='slide' data-title="Let's build an app!">
+				<div class='content'>
+					<h3>We'll build an app without RequireJS, then refactor it</h3>
+					<h4>In the first part we'll build a BBOM, then a more modular one, and finally a 
+						truly asynchronously loaded app.</h4>
+					<div class='figure'>
+						<h4>Figure 3: Finished application</h4>
+						<p>
+							<img src="https://docs.google.com/drawings/d/1RzOM0DYl1qG5KvA4q8OdISWS-KkoOz-dI15gFEK7j64/pub?w=653&amp;h=647" class='col-xs-12' />							
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class='slide' data-title="The Big Ball of Mud">
+				<div class='content'>
+					<h3>Our first attempt could lead toward a Big Ball of Mud, if we're not careful</h3>
+					<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-1/js/calculator-bbom.js?footer=0"></script>
+				</div>
+			</div>						
+		</div>
 	</body>
 </html>
