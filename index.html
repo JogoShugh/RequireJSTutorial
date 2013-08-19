@@ -423,7 +423,8 @@ function resourcesHide() {
 						<li>Parts are expected to implement one or more <em>interfaces</em> that correspond to capabilities</li>
 						<li>These implementation parts are detectable by one or more other modules that incorporate them into the main program</li>
 					</ul>
-					<h4>Our interface is pretty simple: <em>a function that takes two numeric parameters and returns a single numeric parameter</em></h4>
+					<h4>Our interface is pretty simple: <em>a function that takes two numeric parameters and returns a single numeric parameter, so let's implement this next</em></h4>
+
 				</div>
 				<div class='references'>
 					<div class="list-group">
@@ -433,6 +434,64 @@ function resourcesHide() {
 					  </a>
 					</div>				
 				</div>			
+			</div>
+			<div class='slide' data-title="Step 5: Create the asynchronous calculator files!">
+				<div class='content'>
+					<h3>Let's now make our app take advantage of RequireJS and its AMD support</h3>
+					<h4>These steps will make the app both structurally modular and run-time modular: 
+						quickly.</h4>
+					<ul>
+						<li>Create <code>app/js/calculator-async.js</code>:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/calculator-async.js?footer=0"></script>
+							</p>
+						</li>
+						<li>Create <code>app/js/calculator-async-loader.js</code>:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/calculator-async-loader.js?footer=0"></script>
+							</p>
+						</li>						
+						<li>Create the individual operation files:
+							<ul>
+								<li>Add: <code>app/js/add.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/add.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Subtract: <code>app/js/subtract.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/subtract.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Multiply: <code>app/js/multiply.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/multiply.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Divide: <code>app/js/divide.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/divide.js?footer=0"></script>
+									</p>
+								</li>
+								<li>Factorial: <code>app/js/factorial.js</code>:
+									<p>
+										<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/js/factorial.js?footer=0"></script>		
+									</p>
+								</li>
+							</ul>
+						</li>
+						<li>Now, add script references (including to require.js itself!) and modify the body of the <code>app/index.html</code> file to incorporate our asynchronous calculator. Here's what the full file should look like:
+							<p>
+								<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-5/app/index.html?footer=0"></script>							
+							</p>
+						</li>
+						<li><p>
+							Try the finished asynchronous calculator <a href="http://jogoshugh.github.io/RequireJSTutorial/steps/step-5/app/index.html" 
+								class='btn btn-success btn-sm' target='_blank'>Step 5 on GitHub</a>
+							</p>
+						</li>							
+					</ul>
+				</div>
 			</div>			
 		</div>
 	</body>
