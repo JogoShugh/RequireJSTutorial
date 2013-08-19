@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RequireJS Tutorial - Atlanta JavaScript Meetup</title>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' media='screen' />
+		<link href='css/index.css' rel='stylesheet' media='screen' />
+		<script src='lib/jquery/jquery-1.10.2.min.js'></script>
+		<script src='lib/bootstrap/js/bootstrap.min.js'></script>
+		<script src='js/calculator-bbom.js'></script>
+		<script src='js/calculator-modular.js'></script>
+		<script src='js/calculator-ui-1.0.js'></script>
+		<script src='js/add-module.js'></script>
+		<script src='js/subtract-module.js'></script>
+		<script src='js/multiply-module.js'></script>
+		<script src='js/divide-module.js'></script>
+		<script src='js/factorial-module.js'></script>
+		<script src='js/app.js'></script>	
+	</head>
+	<body>
+		<h1 class='visible-md visible-lg'>RequireJS Tutorial - Atlanta Javascript Meetup</h1>
+		<div class='container well'>
+			<ul class='nav nav-tabs' id='tabs'>
+			  <li class='active'><a href='#bbom' data-toggle='tab'>BBOM</a></li>
+			  <li><a href='#modular' data-toggle='tab'>Modular</a></li>
+			</ul>
+			<div class='tab-content calculatorTabs'>
+			  <div class='tab-pane active' id='bbom'>
+				<button class='createCalculator btn btn-sm btn-success' onclick='createCalculatorBBOM()'>Add New BBOM Calculator</button>
+				<div id='bbomCalculators' class='calculator row container'></div>
+			  </div>
+			  <div class='tab-pane' id='modular'>
+				<button class='createCalculator btn btn-sm btn-success' onclick='createCalculatorModular()'>Add New Modular Calculator</button>
+				<div id='modularCalculators' class='calculator row container'></div>
+			  </div>
+			</div>
+		</div>		
+	</body>
+</html>
