@@ -12,12 +12,23 @@
 $(function() {
 	var i = 1;
 	var pager = $('#slidesPager');
+
+	var prevLink = $("<li id='page-prev' class='pageItem'><a href='#'>&laquo;</a></li>");
+	prevLink.click(function() { slidePrevious(); });
+
+	var nextLink = $("<li id='page-next' class='pageItem'><a href='#'>&raquo;</a></li>");
+	nextLink.click(function() { slideNext(); });
+
 	$('#slides .slide').each(function(){
 		this.id = 'slide-' + i;
-		var pagerItem = $("<li><a href='#' class='pagerLink'>" + i + "</a></li>");
+		var pagerItem = $("<li id='page-" + i + "' class='pageItem'><a href='#' class='pagerLink'>" + i + "</a></li>");
 		pager.append(pagerItem);
 		i++;
 	});
+
+	pager.prepend(prevLink);
+	pager.append(nextLink);
+
 	slideLoad.totalSlides = i - 1;
 	$('.pagerLink').click(function() {
 		var link = $(this);
@@ -35,14 +46,25 @@ $(function() {
 	$('#resourcesHide').hide();
 	$('#resourcesShow').hide();
 
+	$('#loading').hide();
+	slideLoad(1);
+	$('#slidesDisplay').show();
 });	
 
 function slideLoad(slide) {
+	slide = parseInt(slide);
+	if (slide < 1) {
+		return;
+	}
+	if (slide > slideLoad.totalSlides) {
+		return;
+	}
 	$('#resourcesHide').hide();
 	$('#resourcesShow').hide();
+	$('.pageItem').removeClass('active');
+	$('#page-' + slide).addClass('active');
 	resourcesHide();
 	var slideEl = $('#slide-' + slide);
-	slide = parseInt(slide);
 	updatePreviousNextButtons(slide);
 	slideLoad.currentSlide = slide;
 	var header = slideEl.attr('data-title');
@@ -62,23 +84,34 @@ slideLoad.currentSlide = 0;
 function updatePreviousNextButtons(slide) {
 	var prev = $('#previous');
 	var next = $('#next');
+	var prevLink = $('#page-prev');
+	var nextLink = $('#page-next');
 	if (slide <= 1) {
 		prev.hide();
 		next.show();
+		prevLink.addClass('disabled');
+		nextLink.removeClass('disabled');
+
 	} else if (slide >= 1) {
 		prev.show();
 		next.show();
+		prevLink.removeClass('disabled');
+		nextLink.removeClass('disabled');
 	}
 	if (slide >= slideLoad.totalSlides) {
 		next.hide();
+		prevLink.removeClass('disabled');
+		nextLink.addClass('disabled');
 	}
 }
 
 function slidePrevious() {
+	console.log('slide prev called');
 	slideLoad(slideLoad.currentSlide - 1);
 }
 
 function slideNext() {
+	console.log('slide next called');	
 	slideLoad(slideLoad.currentSlide + 1);
 }
 
@@ -101,8 +134,18 @@ function resourcesHide() {
 }
 		</script>
 	</head>
-	<body class='container'>
-		<div class='panel'>
+	<body class='container center'>
+
+		<div class="jumbotron" id='loading'>
+		  <div class="container" style='text-align:center'>
+		    <h1>RequireJS Tutorial</h1>
+		    <p>We'll be with you shortly.</p>
+			<div class='figure'>
+				<img src="https://docs.google.com/drawings/d/1i8SCjWygUokBj1ZV5A-4N8W9kspFosXld5b_pzqeSVA/pub?w=204&amp;h=212" />
+			</div>
+		  </div>
+		</div>		
+		<div class='panel' id='slidesDisplay'>
 			<div class='panel-heading'>
 				<ul class="pagination pagination-sm" id='slidesPager'></ul>
 			</div>
