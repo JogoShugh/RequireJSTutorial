@@ -24,9 +24,12 @@ CalculatorUI.prototype.createOperationButton = function(operationSymbol, operati
 			}
 		} catch (ex) {
 			// Oh well
-		}
-		that._lastResult = that._calculator.execute(operationName, numericValues);
-		that.updateOutput();
+		}		
+		that._calculator.execute(operationName, numericValues, function(result) {
+			console.log(result);
+			that._lastResult = result;
+			that.updateOutput();
+		});
 	});
 	return el;
 };

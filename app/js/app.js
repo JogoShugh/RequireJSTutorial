@@ -12,17 +12,11 @@ $(function() {
 		dataType: 'json'
 	})
 	.done(function(data) {
-		console.log('Got module list from server:');
-		console.dir(data);
 		populateOperationOptions(data);
-	});
-	/*
+	})
 	.fail(function() { 
-		console.log('Fell back to getting module list from static list:');
-		console.dir(defaultOperations);
 		populateOperationOptions(defaultOperations) 
 	});
-	*/
 });
 
 function populateOperationOptions(operations) {
@@ -31,7 +25,7 @@ function populateOperationOptions(operations) {
 	for (var key in operations) {
 		var operation = operations[key];
 		var operationContainer = $("<label class='btn btn-primary col-md-1 col-xs-2 operation'></label>");
-		var checkbox = $("<input type='checkbox' value='" + key + "' />");
+		var checkbox = $("<input type='checkbox' value='" + key + "' data-symbol='" + operation.symbol + "' />");
 		if (first) {
 			checkbox.attr('checked', 'checked');
 			operationContainer.addClass('active');
@@ -60,8 +54,8 @@ function createRemovalButton(elToRemoveOnClick) {
 
 function createNewAsyncCalc() {
 	var operations = [];
-	$('.operation input:checked').each(function() {		
-		operations.push($(this).val());
+	$('.operation input:checked').each(function() {	
+		operations.push({ name: $(this).val(), symbol: $(this).attr('data-symbol') });
 	});
 	if (operations.length == 0) {
 		alert("That's a really boring calculator! Try again...");
@@ -69,5 +63,5 @@ function createNewAsyncCalc() {
 	}
 	CalculatorAsyncLoad(operations, function(calculatorAsync) {
 		createAndRenderCalculator(calculatorAsync, '#asyncCalculators');
-	});
+	}, true);
 }
