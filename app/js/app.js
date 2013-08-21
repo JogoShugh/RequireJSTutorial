@@ -63,5 +63,5 @@ function createNewAsyncCalc() {
 	}
 	CalculatorAsyncLoad(operations, function(calculatorAsync) {
 		createAndRenderCalculator(calculatorAsync, '#asyncCalculators');
-	}, true);
+	});
 }
