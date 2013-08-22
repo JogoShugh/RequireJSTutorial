@@ -40,7 +40,7 @@
 					<div ng-bind-html-unsafe='slide_content' ng-show="slide_content != ''"></div>
 					<div ng-show='questions.length > 0' class='well'>
 						<div class='panel'>
-							<div class='panel-heading'><strong>{{question.title}}</strong></div>
+							<div class='panel-heading'><strong>{{question.title}}</strong>&nbsp;<span class='label label-info'>{{(question_position + 1) + ' of ' + questions.length}}</div>
 							<div class='panel-body'>
 								<div ng-repeat='choice in question.choices'>
 									<label class='{{get_choice_class(question, choice)}}'>
@@ -54,6 +54,9 @@
 										class='label label-danger'>Wrong!</span>
 								</div>
 							</div>
+							<span class='label label-default'>Score:&nbsp;
+							{{questions.correct_count}} / {{questions.length}} = {{get_correct_answers_percentage()}}
+							</span>
 						</div>
 						<a class='btn btn-success btn-sm'
 							ng-click='question_score()'
@@ -539,9 +542,11 @@ app.controller 'slidesController', ['$scope', ($scope) ->
 	$scope.slides = []
 	$('#slides .slide').each ->
 		@id = 'slide-' + ($scope.slides.length + 1)
+		questions = $scope.get_questions $(@)
+		questions.correct_count = 0
 		$scope.slides.push 
 			content: @
-			questions: $scope.get_questions $(@)
+			questions: questions
 
 	$scope.slide_has_prev = -> $scope.slide_position > 1
 	$scope.slide_prev = -> $scope.slide_load $scope.slide_position - 1
@@ -592,8 +597,14 @@ app.controller 'slidesController', ['$scope', ($scope) ->
 		for choice in $scope.question.choices
 			if choice.selected and choice.correct
 				choice.answer_correct = true
+				$scope.questions.correct_count++
 			else 
 				choice.answer_correct = false
+
+	$scope.get_correct_answers_percentage = ->
+		correct_count = $scope.questions.correct_count
+		percentage = (correct_count / $scope.questions.length) * 100
+		return parseInt percentage
 
 	$scope.question_has_next = -> $scope.question_position < $scope.questions.length - 1
 
