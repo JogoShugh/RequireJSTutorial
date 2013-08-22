@@ -46,3 +46,20 @@ html, body {
 #slide_content .figure h4 {
 	font-weight: bold;
 }
+
+label {
+	font-weight: normal;
+}
+
+.dimmed {
+	color: #999999;
+}
+
+.correct {
+	color: green;
+	font-weight: bold;
+}
+
+.incorrect {
+	color: red;
+}

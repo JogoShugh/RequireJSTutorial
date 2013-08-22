@@ -9,44 +9,9 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.js"></script>
 		<script src='lib/bootstrap/js/bootstrap.min.js'></script>
-		<script src='lib/respond/respond.min.js'></script>		
-		<script type='text/coffeescript'>
-app = angular.module 'app', []
-
-app.controller 'slidesController', ['$scope', ($scope) ->	
-	$scope.slides = []
-	$('#slides .slide').each ->
-		@id = 'slide-' + ($scope.slides.length + 1)
-		$scope.slides.push @	
-
-	$scope.slide_has_prev = -> $scope.slide_position > 1
-	$scope.slide_prev = -> $scope.slide_load $scope.slide_position - 1
-	$scope.slide_has_next = -> $scope.slide_position < $scope.slides.length
-	$scope.slide_next = -> $scope.slide_load $scope.slide_position + 1
-
-	$scope.slide_header = $scope.slide_content = ''
-	$scope.slide_load = (slide_number) ->
-		return if (slide_number < 1 or slide_number > $scope.slides.length)
-		$scope.slide_position = slide_number
-		$scope.resources_visible = false
-		slide_source = $('#slide-' + slide_number)
-		$scope.slide_header = slide_source.attr('data-title')
-		$scope.slide_content = slide_source.find('.content').html()
-		references = slide_source.find('.references')
-		$scope.slide_resources = if references.length > 0 then references.html() else ''
-		$scope.loaded = true
-
-	$scope.get_slide_active_class = (slide_num) ->
-		return if slide_num is $scope.slide_position then 'active' else ''
-
-	$scope.slide_load 1
-]
-
-angular.bootstrap document, ['app']
-		</script>
+		<script src='lib/respond/respond.min.js'></script>	
 	</head>
 	<body class='container center' ng-controller='slidesController'>
-
 		<div class="jumbotron" ng-hide='loaded'>
 		  <div class="container" style='text-align:center'>
 		    <h1>RequireJS Tutorial</h1>
@@ -72,10 +37,46 @@ angular.bootstrap document, ['app']
 			<div class='panel-body'>
 				<div class='row container' id='slide_content'>
 					<h2>{{slide_header}}</h2>
-					<div ng-bind-html-unsafe="slide_content"></div>
+					<div ng-bind-html-unsafe='slide_content' ng-show="slide_content != ''"></div>
+					<div ng-show='questions.length > 0' class='well'>
+						<div class='panel'>
+							<div class='panel-heading'><strong>{{question.title}}</strong></div>
+							<div class='panel-body'>
+								<div ng-repeat='choice in question.choices'>
+									<label class='{{get_choice_class(question, choice)}}'>
+										<input type='checkbox' ng-model='choice.selected'
+											ng-disabled='question.scored'
+										 /> {{choice.text}}&nbsp;
+									</label>
+									<span ng-show='choice.answer_correct == true'
+										class='label label-success'>Correct!</span>
+									<span ng-show='choice.answer_correct == false && choice.selected'
+										class='label label-danger'>Wrong!</span>
+								</div>
+							</div>
+						</div>
+						<a class='btn btn-success btn-sm'
+							ng-click='question_score()'
+							ng-disabled='question.scored'
+						>Submit answer</a>
+						<a class='btn btn-primary btn-sm'
+							ng-click='question_next()'
+							ng-disabled='!question.scored'
+							ng-hide='!question_has_next()'
+						>Continue</a>
+						<button type='button' class='btn btn-success btn-sm' 
+							ng-click='slide_next()'
+							ng-show='question.scored && !question_has_next()'
+							ng-disabled='!slide_has_next()'
+						>Next</button>
+					</div>					
 				</div>
-				<button type='button' class='btn btn-success btn-sm' ng-click='slide_prev()' ng-disabled='!slide_has_prev()'>Previous</button>
-				<button type='button' class='btn btn-success btn-sm' ng-click='slide_next()' ng-disabled='!slide_has_next()'>Next</button>
+				<div ng-show="slide_content != ''">
+					<button type='button' class='btn btn-success btn-sm' ng-click='slide_prev()'
+						ng-disabled='!slide_has_prev()'>Previous</button>
+					<button type='button' class='btn btn-success btn-sm' ng-click='slide_next()'
+						ng-disabled='!slide_has_next()'>Next</button>
+				</div>
 			</div>			
 			<div class='panel-footer'>
 				<div ng-show="slide_resources != ''">
@@ -86,62 +87,86 @@ angular.bootstrap document, ['app']
 			</div>
 		</div>
 		<div id='slides'>
-			<div class='slide' data-title='What is RequireJS?'>
-				<div class='content'>
-					<blockquote class='lead'>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node. Using a modular script loader like RequireJS will improve the speed and quality of your code.
-					</blockquote>
-					<div class='figure'>
-						<img src="https://docs.google.com/drawings/d/1i8SCjWygUokBj1ZV5A-4N8W9kspFosXld5b_pzqeSVA/pub?w=204&amp;h=212" />
+			<div class='section' data-title='Introduction'>
+				<div class='slide' data-title='What is RequireJS?'>
+					<div class='content'>
+						<blockquote class='lead'>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node. Using a modular script loader like RequireJS will improve the speed and quality of your code.
+						</blockquote>
+						<div class='figure'>
+							<img src="https://docs.google.com/drawings/d/1i8SCjWygUokBj1ZV5A-4N8W9kspFosXld5b_pzqeSVA/pub?w=204&amp;h=212" />
+						</div>
+					</div>
+					<div class='references'>
+						<div class="list-group">
+						  <a href="http://www.requirejs.org" class="list-group-item">
+						    <h4 class="list-group-item-heading">RequireJS web site</h4>
+						    <p class="list-group-item-text">Study the RequireJS technical documentation in greater detail.</p>
+						  </a>
+						  <a href="https://github.com/jrburke" class="list-group-item">
+						    <h4 class="list-group-item-heading">James Burke's GitHub profile</h4>
+						    <p class="list-group-item-text">Check out the RequireJS author's latest work on GitHub.</p>
+						  </a>
+						</div>
 					</div>
 				</div>
-				<div class='references'>
-					<div class="list-group">
-					  <a href="http://www.requirejs.org" class="list-group-item">
-					    <h4 class="list-group-item-heading">RequireJS web site</h4>
-					    <p class="list-group-item-text">Study the RequireJS technical documentation in greater detail.</p>
-					  </a>
-					  <a href="https://github.com/jrburke" class="list-group-item">
-					    <h4 class="list-group-item-heading">James Burke's GitHub profile</h4>
-					    <p class="list-group-item-text">Check out the RequireJS author's latest work on GitHub.</p>
-					  </a>
+				<div class='slide' data-title='RequireJS supports the Asynchronous Module Definition pattern (AMD)'>
+					<div class='content'>
+						<h3>AMD definition:</h3>
+						<blockquote class='lead'>The Asynchronous Module Definition API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.						
+						</blockquote>
+						<div class='figure'>
+							<h4>Figure 1: AMD pattern</h4>
+							<p>
+								<img src="https://docs.google.com/drawings/d/1j2cv3YuU5f4mqzf3VQUMEegtPB5m4JEIkmsabert89o/pub?w=914&amp;h=638"
+								class='col-xs-12 col-md-12' />
+							</p>
+						</div>
+					</div>
+					<div class='references'>
+						<div class="list-group">
+						  <a href="https://github.com/amdjs/amdjs-api/wiki/AMD" class="list-group-item">
+						    <h4 class="list-group-item-heading">AMD wiki</h4>
+						    <p class="list-group-item-text">Read the full API spec for the AMD JS pattern.</p>
+						  </a>
+						  <a href="http://pluralsight.com/training/courses/TableOfContents?courseName=javascript-design-patterns" 	class="list-group-item">
+						    <h4 class="list-group-item-heading">JavaScript Design Patterns course</h4>
+						    <p class="list-group-item-text">Aaron Powell's Pluralsight course has a chapter on AMD.</p>
+						  </a>
+						</div>
+					</div>					
+				</div>
+				<div class='slide' data-title='RequireJS as boomerang'>
+					<div class='content'>
+						<h3>RequireJS fetches libraries like a boomerang and brings them back to your code</h3>
+						<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-1/js/factorial.js?footer=0"></script>
+						<div class='figure'>
+							<h4>Figure 2: Library boomerang</h4>
+							<p>
+								<img class='col-xs-12 col-md-12' src="https://docs.google.com/drawings/d/1lkXsqziTqYC8YLvAXwygfa47hLKjWx_aLKKroP4djn4/pub?w=933&amp;h=401" />
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class='slide' data-title='RequireJS supports the Asynchronous Module Definition pattern (AMD)'>
-				<div class='content'>
-					<h3>AMD definition:</h3>
-					<blockquote class='lead'>The Asynchronous Module Definition API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.						
-					</blockquote>
-					<div class='figure'>
-						<h4>Figure 1: AMD pattern</h4>
-						<p>
-							<img src="https://docs.google.com/drawings/d/1j2cv3YuU5f4mqzf3VQUMEegtPB5m4JEIkmsabert89o/pub?w=914&amp;h=638"
-							class='col-xs-12 col-md-12' />
-						</p>
-					</div>
-				</div>
-				<div class='references'>
-					<div class="list-group">
-					  <a href="https://github.com/amdjs/amdjs-api/wiki/AMD" class="list-group-item">
-					    <h4 class="list-group-item-heading">AMD wiki</h4>
-					    <p class="list-group-item-text">Read the full API spec for the AMD JS pattern.</p>
-					  </a>
-					  <a href="http://pluralsight.com/training/courses/TableOfContents?courseName=javascript-design-patterns" 	class="list-group-item">
-					    <h4 class="list-group-item-heading">JavaScript Design Patterns course</h4>
-					    <p class="list-group-item-text">Aaron Powell's Pluralsight course has a chapter on AMD.</p>
-					  </a>
-					</div>
-				</div>
-			</div>			
-			<div class='slide' data-title='RequireJS as boomerang'>
-				<div class='content'>
-					<h3>RequireJS fetches libraries like a boomerang and brings them back to your code</h3>
-					<script src="http://gist-it.appspot.com/github/JogoShugh/RequireJSTutorial/blob/step-1/js/factorial.js?footer=0"></script>
-					<div class='figure'>
-						<h4>Figure 2: Library boomerang</h4>
-						<p>
-							<img class='col-xs-12 col-md-12' src="https://docs.google.com/drawings/d/1lkXsqziTqYC8YLvAXwygfa47hLKjWx_aLKKroP4djn4/pub?w=933&amp;h=401" />
-						</p>
+				<div class='slide' data-title='Introduction: Test your knowledge'>
+					<div class='questions'>
+						<div class='question'>
+							<h1>Who created RequireJS?</h1>
+							<ul>
+								<li>Brendan Eich</li>
+								<li>Linus Torvalds</li>
+								<li data-correct>James Burke</li>
+								<li>Sandra Tyson</li>
+							</ul>
+						</div>
+						<div class='question'>
+							<h1>What does AMD stand for?</h1>
+							<ul>
+								<li>American Micro Devices</li>
+								<li>Asynchronous Module Dependency</li>
+								<li>Asynchronous Message Dispatch</li>
+								<li data-correct>Asynchronous Module Definition</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -157,7 +182,7 @@ angular.bootstrap document, ['app']
 					<div class='figure'>
 						<h4>Figure 3: Finished version of our application, incorporating all three</h4>
 						<p>
-							<img src="https://docs.google.com/drawings/d/1RzOM0DYl1qG5KvA4q8OdISWS-KkoOz-dI15gFEK7j64/pub?w=653&amp;h=647" class='col-xs-12' />							
+							<img src="https://docs.google.com/drawings/d/1RzOM0DYl1qG5KvA4q8OdISWS-KkoOz-dI15gFEK7j64/pub?w=653&amp;h=647" class='col-xs-12' />
 						</p>
 					</div>
 				</div>
@@ -198,6 +223,7 @@ angular.bootstrap document, ['app']
 					  </a>
 					</div>
 				</div>
+
 			</div>
 			<div class='slide' data-title="Step 2: Create the CalculatorBBOM object">
 				<div class='content'>
@@ -489,5 +515,99 @@ angular.bootstrap document, ['app']
 			</div>			
 		</div>
 	</body>
+	<script type='text/coffeescript'>
+app = angular.module 'app', []
+
+app.controller 'slidesController', ['$scope', ($scope) ->	
+	$scope.get_questions = (slide) ->
+		questions = []
+		slide.find('.questions').each ->
+			$(@).find('.question').each ->			
+				choices = []
+				$(@).find('li').each ->
+					item = $(@)
+					choice = 
+						text: item.html()
+						correct: has_attr item, 'data-correct'
+						selected: false
+					choices.push choice
+				questions.push
+					title: $(@).find('h1').text()
+					choices: choices
+		return questions
+
+	$scope.slides = []
+	$('#slides .slide').each ->
+		@id = 'slide-' + ($scope.slides.length + 1)
+		$scope.slides.push 
+			content: @
+			questions: $scope.get_questions $(@)
+
+	$scope.slide_has_prev = -> $scope.slide_position > 1
+	$scope.slide_prev = -> $scope.slide_load $scope.slide_position - 1
+	$scope.slide_has_next = -> $scope.slide_position < $scope.slides.length
+	$scope.slide_next = -> $scope.slide_load $scope.slide_position + 1
+
+	$scope.slide_header = $scope.slide_content = ''
+	$scope.slide_load = (slide_number) ->
+		slide_number = parseInt slide_number
+		return if (slide_number < 1 or slide_number > $scope.slides.length)
+		$scope.slide_position = slide_number
+		$scope.resources_visible = false
+		slide = $scope.slides[slide_number - 1]
+		#slide_source = $('#slide-' + slide_number)
+		slide_source = $(slide.content)
+		$scope.slide_header = slide_source.attr('data-title')
+
+		content = slide_source.find('.content')
+		$scope.slide_content = if content.length > 0 then content.html() else ''
+
+		references = slide_source.find('.references')
+		$scope.slide_resources = if references.length > 0 then references.html() else ''
+		
+		$scope.questions = slide.questions
+		$scope.question_position = 0
+		if $scope.questions.length > 0
+			$scope.question = $scope.questions[0]
+
+		$scope.loaded = true
+
+	$scope.get_slide_active_class = (slide_num) ->
+		return if slide_num is $scope.slide_position then 'active' else ''
+
+	$scope.slide_load 1
+
+	$scope.get_choice_class = (question, choice) ->
+		if question.scored and choice.selected isnt true and choice.correct is false
+			return 'dimmed'
+		if question.scored and choice.selected is true and choice.correct is true
+			return 'correct'
+		if question.scored and choice.selected is true and choice.correct is false
+			return 'incorrect'
+		else
+			return ''
+
+	$scope.question_score = ->
+		$scope.question.scored = true
+		for choice in $scope.question.choices
+			if choice.selected and choice.correct
+				choice.answer_correct = true
+			else 
+				choice.answer_correct = false
+
+	$scope.question_has_next = -> $scope.question_position < $scope.questions.length - 1
+
+	$scope.question_next = ->
+		if $scope.question_has_next()
+			$scope.question_position++
+			$scope.question = $scope.questions[$scope.question_position]
+]
+
+has_attr = (el, attr) ->
+	at = el.attr(attr)
+	return typeof at isnt 'undefined' and at isnt false
+
+angular.bootstrap document, ['app']
+	</script>	
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.1.2/coffee-script.min.js"></script>
 </html>
