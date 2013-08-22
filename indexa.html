@@ -47,6 +47,9 @@
 										<input type='checkbox' ng-model='choice.selected'
 											ng-disabled='question.scored'
 										 /> {{choice.text}}&nbsp;
+										 <span ng-show='question.scored' style='font-weight: bold;font-size:85%'>
+										 	{{choice.description}}
+										 </span>
 									</label>
 									<span ng-show='choice.answer_correct == true'
 										class='label label-success'>Correct!</span>
@@ -55,7 +58,7 @@
 								</div>
 							</div>
 							<span class='label label-default'>Score:&nbsp;
-							{{questions.correct_count}} / {{questions.length}} = {{get_correct_answers_percentage()}}
+							{{get_correct_count()}} / {{questions.length}} = {{get_correct_answers_percentage()}}
 							</span>
 						</div>
 						<a class='btn btn-success btn-sm'
@@ -155,10 +158,10 @@
 						<div class='question'>
 							<h1>Who created RequireJS?</h1>
 							<ul>
-								<li>Brendan Eich</li>
-								<li>Linus Torvalds</li>
-								<li data-correct>James Burke</li>
-								<li>Sandra Tyson</li>
+								<li title='In 1995, Brendan Eich created JavaScript while working at Netscape Communications Corporation'>Brendan Eich</li>
+								<li title='John Resig invented the jQuery library in 2005'>John Resig</li>
+								<li data-correct title='James Burke developed RequireJS in 2009'>James Burke</li>
+								<li title='Jeremy Ashkenas created CoffeeScript, Backbone, and Underscore'>Jeremy Ashkenas</li>
 							</ul>
 						</div>
 						<div class='question'>
@@ -531,6 +534,7 @@ app.controller 'slidesController', ['$scope', ($scope) ->
 					item = $(@)
 					choice = 
 						text: item.html()
+						description: item.attr('title')
 						correct: has_attr item, 'data-correct'
 						selected: false
 					choices.push choice
@@ -586,6 +590,8 @@ app.controller 'slidesController', ['$scope', ($scope) ->
 		if question.scored and choice.selected isnt true and choice.correct is false
 			return 'dimmed'
 		if question.scored and choice.selected is true and choice.correct is true
+			return 'correct-selected'
+		if question.scored and choice.correct is true
 			return 'correct'
 		if question.scored and choice.selected is true and choice.correct is false
 			return 'incorrect'

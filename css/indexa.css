@@ -55,9 +55,12 @@ label {
 	color: #999999;
 }
 
-.correct {
+.correct-selected {
 	color: green;
 	font-weight: bold;
+}
+.correct {
+	color: green;
 }
 
 .incorrect {
