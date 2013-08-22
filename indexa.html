@@ -46,19 +46,19 @@
 									<label class='{{get_choice_class(question, choice)}}'>
 										<input type='checkbox' ng-model='choice.selected'
 											ng-disabled='question.scored'
-										 /> {{choice.text}}&nbsp;
-										 <span ng-show='question.scored' style='font-weight: bold;font-size:85%'>
-										 	{{choice.description}}
-										 </span>
+										 /> {{choice.text}}&nbsp;				 
 									</label>
 									<span ng-show='choice.answer_correct == true'
 										class='label label-success'>Correct!</span>
 									<span ng-show='choice.answer_correct == false && choice.selected'
 										class='label label-danger'>Wrong!</span>
+									<span ng-show='question.scored' style='font-weight: bold;font-size:85%'>
+										{{choice.description}}
+									</span>										
 								</div>
 							</div>
 							<span class='label label-default'>Score:&nbsp;
-							{{get_correct_count()}} / {{questions.length}} = {{get_correct_answers_percentage()}}
+							{{questions.correct_count}} / {{questions.length}} = {{get_correct_answers_percentage()}}
 							</span>
 						</div>
 						<a class='btn btn-success btn-sm'
